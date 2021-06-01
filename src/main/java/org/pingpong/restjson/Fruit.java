@@ -2,6 +2,8 @@ package org.pingpong.restjson;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -28,6 +30,10 @@ public class Fruit extends PanacheEntity {
     @Column
     public String description;
 
+    @OneToOne
+    @JoinColumn(name = "farmer_name")
+    public Farmer farmer;
+
     public Fruit() {
     }
 
@@ -42,6 +48,7 @@ public class Fruit extends PanacheEntity {
     public void setName(String name) {
         this.name = name;
     }
+    
 
     /*
     // substituit getName por este metodo en
