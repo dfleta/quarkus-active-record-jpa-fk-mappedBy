@@ -1,5 +1,6 @@
 package org.pingpong.restjson;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -8,13 +9,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 @Table(name="Fruit")
-@JsonPropertyOrder({"name", "decription"})
+// @JsonPropertyOrder({"name", "decription"})
 public class Fruit extends PanacheEntity {
 
     // Las propiedades han de ser publicas para que jackson
@@ -31,7 +30,7 @@ public class Fruit extends PanacheEntity {
     public String description;
 
     @OneToOne
-    @JoinColumn(name = "farmer_name")
+    @JoinColumn(name = "farmer_id")
     public Farmer farmer;
 
     public Fruit() {
@@ -48,7 +47,6 @@ public class Fruit extends PanacheEntity {
     public void setName(String name) {
         this.name = name;
     }
-    
 
     /*
     // substituit getName por este metodo en

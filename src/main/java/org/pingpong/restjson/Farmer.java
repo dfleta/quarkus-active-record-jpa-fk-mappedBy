@@ -8,6 +8,8 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 @Table(name = "Farmer")
+// @JsonIgnoreProperties({"id", "location"})
+// @JsonFormat(shape = Shape.STRING)
 public class Farmer extends PanacheEntity {
 
     @Column(unique = true)
@@ -21,5 +23,5 @@ public class Farmer extends PanacheEntity {
     public Farmer(String name, String location) {
         this.name = name;
         this.location = location;
-    }    
+    }
 }
