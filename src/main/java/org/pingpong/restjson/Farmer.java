@@ -2,17 +2,22 @@ package org.pingpong.restjson;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-@Table(name = "Farmer")
-// @JsonIgnoreProperties({"id", "location"})
-// @JsonFormat(shape = Shape.STRING)
-public class Farmer extends PanacheEntity {
+@Table(name = "farmer")
+@JsonIgnoreProperties({"location"})
+public class Farmer extends PanacheEntityBase {
 
+    @Id
     @Column(unique = true)
+    @JsonProperty(value = "farmer")
     public String name;
 
     @Column
