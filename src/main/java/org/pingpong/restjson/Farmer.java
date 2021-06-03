@@ -1,32 +1,34 @@
 package org.pingpong.restjson;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
 @Table(name = "farmer")
 //@JsonIgnoreProperties({"location", "fruits"})
-public class Farmer extends PanacheEntity {
+public class Farmer extends PanacheEntityBase {
 
+    @Id
     @Column(unique = true)
-    //@JsonProperty(value = "supplier")
+    // @JsonProperty(value = "supplier")
     public String name;
 
     @Column
     public String location;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "farmer", cascade = CascadeType.ALL)
-    public Set<Fruit> fruits;
+    @OneToMany(mappedBy = "farmer")
+    public Set<Fruit> fruits = new HashSet<Fruit>();
     
     public Farmer() {}
 

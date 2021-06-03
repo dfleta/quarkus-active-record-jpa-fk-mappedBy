@@ -24,7 +24,11 @@ public class ServiceFruit {
     }
 
     public void add(Fruit fruit) {
-        fruit.persist();
+        //Optional<Farmer> supplier = Farmer.findByIdOptional(fruit.farmer);
+        //if (supplier.isPresent()) { 
+        //    fruit.farmer = supplier.get();
+            fruit.persist();
+       // }
     }
 
     public void remove(String name) {
