@@ -3,22 +3,23 @@ DROP TABLE IF EXISTS farmer;
 CREATE TABLE farmer
 (
     id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-    name VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
     location VARCHAR(255),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 CREATE TABLE fruit
 (
     id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-    name VARCHAR (255) NOT NULL UNIQUE, 
+    name VARCHAR (255) NOT NULL, 
     description VARCHAR(255), 
-    farmer_id BIGINT(20) UNSIGNED NOT NULL UNIQUE,
+    farmer_id BIGINT(20) UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT `fk_fruit_farmer`
         FOREIGN KEY (farmer_id) REFERENCES farmer (id)
         ON DELETE CASCADE
+        ON UPDATE CASCADE
 ) ENGINE = InnoDB;
-INSERT INTO
+INSERT INTO 
     farmer (id, name, location) 
 VALUES
     (1000, 'Farmer Rick', 'Sa Pobla'),
