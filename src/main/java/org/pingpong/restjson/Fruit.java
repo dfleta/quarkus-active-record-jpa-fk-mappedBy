@@ -1,9 +1,11 @@
 package org.pingpong.restjson;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -18,8 +20,8 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 @Table(name="fruit")
-@JsonPropertyOrder({"name", "decription"})
-@JsonIgnoreProperties({"id"})
+//@JsonPropertyOrder({"name", "description"})
+//@JsonIgnoreProperties({"id"})
 public class Fruit extends PanacheEntity {
 
     // Las propiedades han de ser publicas para que jackson
@@ -35,10 +37,10 @@ public class Fruit extends PanacheEntity {
     @Column
     public String description;
 
-    @JsonUnwrapped
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "farmer_name")
+    //@JsonUnwrapped
+    //@NotNull
+    @ManyToOne //(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "farmer_id")
     public Farmer farmer;
 
     public Fruit() {
