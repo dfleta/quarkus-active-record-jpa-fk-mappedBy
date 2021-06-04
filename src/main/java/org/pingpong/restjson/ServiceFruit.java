@@ -10,9 +10,6 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class ServiceFruit {
 
-    // @Inject
-    // RepoFruit repo;
-
     public ServiceFruit() { 
         // CDI
     }

@@ -3,18 +3,20 @@ package org.pingpong.restjson;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-@Table(name="Fruit")
-// @JsonPropertyOrder({"name", "decription"})
-public class Fruit extends PanacheEntity {
+@Table(name="fruit")
+//@JsonPropertyOrder({"name", "description"})
+//@JsonIgnoreProperties({"id"})
+public class Fruit extends PanacheEntityBase {
 
     // Las propiedades han de ser publicas para que jackson
     // pueda acceder a ellar por reflection o configurar getter y setter
@@ -22,6 +24,7 @@ public class Fruit extends PanacheEntity {
     // Mantengo el getter porque lo uso en los casos test
 
     @NotBlank
+    @Id
     @Column(unique = true)
     public String name;
     
@@ -29,16 +32,19 @@ public class Fruit extends PanacheEntity {
     @Column
     public String description;
 
-    @OneToOne
-    @JoinColumn(name = "farmer_id")
+    //@JsonUnwrapped
+    //@NotNull
+    @ManyToOne
+    @JoinColumn(name = "farmer_name")
     public Farmer farmer;
 
     public Fruit() {
     }
 
-    public Fruit(String name, String description) {
+    public Fruit(String name, String description, Farmer farmer) {
         this.name = name;
         this.description = description;
+        this.farmer = farmer;
     }
 
     public String getName() {
@@ -47,13 +53,4 @@ public class Fruit extends PanacheEntity {
     public void setName(String name) {
         this.name = name;
     }
-
-    /*
-    // substituit getName por este metodo en
-    // la serializacion a JSON
-    @JsonGetter("name")
-    public String nombre() {
-        return "UMAMI";
-    }*/
-
 }
