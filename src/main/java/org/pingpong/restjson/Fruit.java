@@ -34,16 +34,17 @@ public class Fruit extends PanacheEntityBase {
 
     //@JsonUnwrapped
     //@NotNull
-    @ManyToOne //(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "farmer_name")
     public Farmer farmer;
 
     public Fruit() {
     }
 
-    public Fruit(String name, String description) {
+    public Fruit(String name, String description, Farmer farmer) {
         this.name = name;
         this.description = description;
+        this.farmer = farmer;
     }
 
     public String getName() {

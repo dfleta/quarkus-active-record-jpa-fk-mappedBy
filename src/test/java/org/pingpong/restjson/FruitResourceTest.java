@@ -60,7 +60,7 @@ public class FruitResourceTest {
                 .as(new TypeRef<List<Map<String, Object>>>() {});
 
         Assertions.assertThat(products).hasSize(2);
-        Assertions.assertThat(products.get(0)).containsKeys("name", "description");
+        Assertions.assertThat(products.get(0)).containsKeys("name", "description", "farmer");
     }
 
     @Test
@@ -72,13 +72,14 @@ public class FruitResourceTest {
             .statusCode(200)
             .body("$.size()", is(2),
                   "name", containsInAnyOrder("Apple", "Pineapple"),
-                  "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
+                  "description", containsInAnyOrder("Winter fruit", "Tropical fruit"),
+                  "farmer.name", containsInAnyOrder("Farmer Rick", "Morty Vegan"));
     }
 
     @Test
     public void testAddDelete() {
         given()
-            .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\"}")
+            .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\", \"farmer\": {\"name\": \"Farmer Rick\"}}")
             .header("Content-Type", MediaType.APPLICATION_JSON)
         .when()
             .post("/fruits")
@@ -86,10 +87,11 @@ public class FruitResourceTest {
             .statusCode(200)
             .body("$.size()", is(3),
                   "name", containsInAnyOrder("Banana", "Apple", "Pineapple"),
-                  "description", containsInAnyOrder("Brings a Gorilla too", "Winter fruit", "Tropical fruit"));
+                  "description", containsInAnyOrder("Brings a Gorilla too", "Winter fruit", "Tropical fruit"),
+                  "farmer.name", containsInAnyOrder("Farmer Rick", "Farmer Rick", "Morty Vegan"));
         
         given()
-            .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\"}")
+            .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\", \"farmer\": {\"name\": \"Farmer Rick\"}}")
             .header("Content-Type", MediaType.APPLICATION_JSON)
         .when()
             .delete("/fruits")
@@ -97,7 +99,8 @@ public class FruitResourceTest {
             .statusCode(200)
             .body("$.size()", is(2),
                   "name", containsInAnyOrder("Apple", "Pineapple"),
-                  "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
+                  "description", containsInAnyOrder("Winter fruit", "Tropical fruit"),
+                  "farmer.name", containsInAnyOrder("Farmer Rick", "Morty Vegan"));
     }
     
     @Test
@@ -110,7 +113,8 @@ public class FruitResourceTest {
         .then()
             .contentType(ContentType.JSON)
             .body("name", equalTo("Apple"),
-                  "description", equalTo("Winter fruit"));
+                  "description", equalTo("Winter fruit"),
+                  "farmer.name", equalTo("Farmer Rick"));
 
         // no fruit
         given()

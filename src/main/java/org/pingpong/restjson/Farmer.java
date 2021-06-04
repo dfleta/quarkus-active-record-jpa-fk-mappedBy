@@ -36,4 +36,9 @@ public class Farmer extends PanacheEntityBase {
         this.name = name;
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return this.name + ", " + this.location;
+    }
 }

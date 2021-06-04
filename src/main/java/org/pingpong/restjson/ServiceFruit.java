@@ -10,9 +10,6 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class ServiceFruit {
 
-    // @Inject
-    // RepoFruit repo;
-
     public ServiceFruit() { 
         // CDI
     }
@@ -24,11 +21,7 @@ public class ServiceFruit {
     }
 
     public void add(Fruit fruit) {
-        //Optional<Farmer> supplier = Farmer.findByIdOptional(fruit.farmer);
-        //if (supplier.isPresent()) { 
-        //    fruit.farmer = supplier.get();
-            fruit.persist();
-       // }
+        fruit.persist();
     }
 
     public void remove(String name) {

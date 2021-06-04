@@ -32,7 +32,9 @@ public class ServiceFruitTest {
     
     @Test
     public void addTest() {
-        service.add(new Fruit("Banana", "And an attached Gorilla"));
+        service.add(new Fruit("Banana", 
+                              "And an attached Gorilla", 
+                              new Farmer("Farmer Rick", "Sa Pobla")));
         Assertions.assertThat(service.list()).hasSize(3);
         Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Banana"))).isTrue();
 
@@ -48,13 +50,13 @@ public class ServiceFruitTest {
         Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Apple"))).isFalse();
 
         // handmade rollback gracias al antipatron ActiveRecord ;)
-        Fruit.persist(new Fruit("Apple", "Winter fruit"));
+        Fruit.persist(new Fruit("Apple", "Winter fruit", new Farmer("Farmer Rick", "Sa Pobla")));
         Assertions.assertThat(Fruit.count()).isEqualTo(2);
     }
 
     @Test
     public void getFruitTest() {
-        Assertions.assertThat(service.getFruit("Apple")).get().hasFieldOrPropertyWithValue("name", "Apple").hasFieldOrPropertyWithValue("description", "Winter fruit");
+        Assertions.assertThat(service.getFruit("Apple")).get().hasFieldOrPropertyWithValue("name", "Apple").hasFieldOrPropertyWithValue("description", "Winter fruit").extracting("farmer").toString().compareTo("Farmer Rick, Sa Pobla");
         Assertions.assertThat(service.getFruit("Mandarina")).isEmpty();
     }    
 }
