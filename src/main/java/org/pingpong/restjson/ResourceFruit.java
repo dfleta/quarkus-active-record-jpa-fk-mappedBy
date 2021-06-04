@@ -59,7 +59,7 @@ public class ResourceFruit {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    // curl -d '{"name":"Banana", "description":"Brings a Gorilla too"}'
+    // curl -d '{"name":"Banana", "description":"Brings a Gorilla too", "farmer": {"name": "Farmer Rick"}}'
     // -H "Content-Type: application/json" -X POST http://localhost:8080/fruits
     public Set<Fruit> add(@Valid Fruit fruit) {
         service.add(fruit);
@@ -70,7 +70,7 @@ public class ResourceFruit {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    // curl -d '{"name":"Banana", "description":"Brings a Gorilla too"}'
+    // curl -d '{"name":"Banana", "description":"Brings a Gorilla too", "farmer": {"name": "Farmer Rick"}}'
     // -H "Content-Type: application/json" -X DELETE http://localhost:8080/fruits   
     public Set<Fruit> delete(@Valid Fruit fruit) {
         service.remove(fruit.getName());
