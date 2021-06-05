@@ -25,8 +25,10 @@ public class ServiceFruit {
     }
 
     public void remove(String name) {
-        Fruit fruit = Fruit.find("name", name).firstResult();
-        fruit.delete();
+        Optional<Fruit> fruit = Fruit.find("name", name).firstResultOptional();
+        if (fruit.isPresent()) {
+            fruit.get().delete();
+        }
     }
 
     public Optional<Fruit> getFruit(String name) {
