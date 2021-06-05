@@ -21,12 +21,19 @@ public class ServiceFruit {
     }
 
     public void add(Fruit fruit) {
+        // Es necesario meter en el Persistence Context el objeto Farmer de Fruit
+        // antes de hacer flush sobre la bbdd para evitar error entity en transient state
+        // Buscamos el objeto Farmer de la peticion POST en la bbdd para ponerlo MANAGED con find()
         Optional<Farmer> supplier = Farmer.find("name", fruit.farmer.name).firstResultOptional();
         if (supplier.isPresent()) {
+            // Si el Farmer existe, ese objeto managed se asigna a Fruit
             fruit.farmer = supplier.get();
         } else {
+            // Si no existe, se ha creado un NEW Farmer en memoria
+            // y lo ponemos en MANAGED con persist()
             fruit.farmer.persist();
         }
+        // Persisir el NEW Fruit con Farmer ya en Managed y persist-ido.
         fruit.persist();
     }
 
