@@ -21,6 +21,12 @@ public class ServiceFruit {
     }
 
     public void add(Fruit fruit) {
+        Optional<Farmer> supplier = Farmer.find("name", fruit.farmer.name).firstResultOptional();
+        if (supplier.isPresent()) {
+            fruit.farmer = supplier.get();
+        } else {
+            fruit.farmer.persist();
+        }
         fruit.persist();
     }
 

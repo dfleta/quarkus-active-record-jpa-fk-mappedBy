@@ -47,6 +47,25 @@ public class ServiceFruitTest {
     }
 
     @Test
+    public void addFarmerTest() {
+        service.add(new Fruit("Navel Late", 
+                              "Crist en pel", 
+                              new Farmer("Jerrys Bites", "Es Pla")));
+        Assertions.assertThat(service.list()).hasSize(3);
+        Assertions.assertThat(service.list().stream().anyMatch(f -> f.getName().equals("Navel Late"))).isTrue();
+        // hay un nuevo registro en la tabla Farmer
+        Assertions.assertThat(Farmer.count()).isEqualTo(3L);
+
+        // handmade rollback gracias al antipatron ActiveRecord ;)
+        Fruit fruit = Fruit.find("name", "Navel Late").firstResult();
+        fruit.delete();
+        Assertions.assertThat(Fruit.count()).isEqualTo(2L);
+        Farmer farmer = Farmer.find("name", "Jerrys Bites").firstResult();
+        farmer.delete();
+        Assertions.assertThat(Farmer.count()).isEqualTo(2L);
+    }
+
+    @Test
     public void removeTest(){
         service.remove("Apple");
         Assertions.assertThat(service.list()).hasSize(1);
